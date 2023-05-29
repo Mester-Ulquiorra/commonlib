@@ -1,0 +1,27 @@
+{
+    "name": "@mester-ulquiorra/commonlib",
+    "version": "1.0.0",
+    "description": "Common library for Ulquiorra",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "tsc -p tsconfig.json && dts-bundle-generator -o ./build/typings.d.ts ./src/index.ts --project tsconfig.json --no-check && (echo import mongoose from 'mongoose';) >> ./build/typings.d.ts"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "@types/cli-color": "^2.0.2",
+        "@types/node": "^20.1.1",
+        "dts-bundle-generator": "^8.0.1",
+        "typescript": "^5.0.4"
+    },
+    "type": "module",
+    "exports": "./build/index.js",
+    "dependencies": {
+        "cli-color": "^2.0.3",
+        "date-fns": "^2.30.0",
+        "mongoose": "^7.1.0",
+        "winston": "^3.8.2"
+    },
+    "typings": "./build/typings.d.ts"
+}

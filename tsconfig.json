@@ -1,0 +1,33 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "skipLibCheck": true,
+        "module": "ES2022",
+        "moduleResolution": "nodenext",
+        "target": "ES2022",
+        "lib": [
+            "ES2022"
+        ],
+        "types": [
+            // add node as an option
+            "node",
+        ],
+        "typeRoots": [
+            // add path to @types
+            "node_modules/@types"
+        ],
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
+        "outDir": "./build",
+        "removeComments": true,
+        "allowSyntheticDefaultImports": true,
+        "newLine": "lf",
+        "esModuleInterop": true
+    },
+    "include": [
+        "./src/",
+    ],
+    "exclude": [
+        "./node_modules/"
+    ],
+}

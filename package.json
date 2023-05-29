@@ -1,10 +1,10 @@
 {
     "name": "@mester-ulquiorra/commonlib",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "Common library for Ulquiorra",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "build": "tsc -p tsconfig.json && dts-bundle-generator -o ./build/typings.d.ts ./src/index.ts --project tsconfig.json --no-check && (echo import mongoose from 'mongoose';) >> ./build/typings.d.ts"
+        "build": "tsc -p tsconfig.json && dts-bundle-generator -o ./build/index.d.ts ./src/index.ts --project tsconfig.json --no-check && (echo import mongoose from 'mongoose';) >> ./build/index.d.ts"
     },
     "keywords": [],
     "author": "",
@@ -23,7 +23,7 @@
         "mongoose": "^7.1.0",
         "winston": "^3.8.2"
     },
-    "typings": "./build/typings.d.ts",
+    "typings": "./build/index.d.ts",
     "repository": {
         "type": "git",
         "url": "https://github.com/Mester-Ulquiorra/commonlib.git"   

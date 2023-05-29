@@ -1,19 +1,12 @@
-import mongoose, { Document } from "mongoose";
-import { DBPunishment } from "../types/Database.js";
-
-export enum PunishmentType {
-    Warn = 0,
-    Mute = 1,
-    Kick = 2,
-    Ban = 3,
-}
-
-/**
- * A function to convert punishment types into strings.
- * The type of punishment.
- * @returns The string representation of the punishment type.
- */
-export function PunishmentTypeToName(type: PunishmentType) {
+import mongoose from "mongoose";
+export var PunishmentType;
+(function (PunishmentType) {
+    PunishmentType[PunishmentType["Warn"] = 0] = "Warn";
+    PunishmentType[PunishmentType["Mute"] = 1] = "Mute";
+    PunishmentType[PunishmentType["Kick"] = 2] = "Kick";
+    PunishmentType[PunishmentType["Ban"] = 3] = "Ban";
+})(PunishmentType || (PunishmentType = {}));
+export function PunishmentTypeToName(type) {
     switch (type) {
         case PunishmentType.Warn:
             return "Warn";
@@ -25,10 +18,7 @@ export function PunishmentTypeToName(type: PunishmentType) {
             return "Ban";
     }
 }
-
-export interface IDBPunishment extends DBPunishment, Document { }
-
-export const PunishmentConfigSchema = new mongoose.Schema<IDBPunishment>({
+export const PunishmentConfigSchema = new mongoose.Schema({
     punishmentId: {
         type: mongoose.SchemaTypes.String,
         unique: true,

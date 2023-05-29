@@ -2,12 +2,8 @@ import winston from "winston";
 import { format as formatDate } from "date-fns";
 import clc from "cli-color";
 import { join } from "path";
-
-export type LogType = "info" | "warn" | "error" | "fatal";
-
 const dateFormat = "yyyy-MM-dd HH:mm:ss.SSS";
-
-function getColoredType(type: LogType) {
+function getColoredType(type) {
     switch (type) {
         case "info": return clc.blue("INFO");
         case "warn": return clc.xterm(208)("WARN");
@@ -15,34 +11,17 @@ function getColoredType(type: LogType) {
         case "fatal": return clc.xterm(196).bgXterm(160).bold("FATAL");
     }
 }
-
-const logFormat = winston.format.printf(({ level, message, timestamp }: { level: string; message: string; timestamp: Date; }) => {
+const logFormat = winston.format.printf(({ level, message, timestamp }) => {
     return `[${timestamp.toLocaleString()} ${level.toUpperCase()}]: ${message}`;
 });
-
-/**
- * A universal logger class.
- */
 export class Logger {
-    /**
-     * The path to the logs folder.
-     */
-    logsPath: string;
-
-    /**
-     * The logger objects for each log level.
-     */
-    loggers: Record<LogType, winston.Logger>;
-
-    constructor(logsPath: string) {
+    logsPath;
+    loggers;
+    constructor(logsPath) {
         this.logsPath = logsPath;
-
         this.loggers = {
             info: winston.createLogger({
-                format: winston.format.combine(
-                    winston.format.timestamp(),
-                    logFormat
-                ),
+                format: winston.format.combine(winston.format.timestamp(), logFormat),
                 transports: [
                     new winston.transports.File({
                         filename: join(this.logsPath, "info.log"),
@@ -51,10 +30,7 @@ export class Logger {
                 ],
             }),
             warn: winston.createLogger({
-                format: winston.format.combine(
-                    winston.format.timestamp(),
-                    logFormat
-                ),
+                format: winston.format.combine(winston.format.timestamp(), logFormat),
                 transports: [
                     new winston.transports.File({
                         filename: join(this.logsPath, "warn.log"),
@@ -63,10 +39,7 @@ export class Logger {
                 ],
             }),
             error: winston.createLogger({
-                format: winston.format.combine(
-                    winston.format.timestamp(),
-                    logFormat
-                ),
+                format: winston.format.combine(winston.format.timestamp(), logFormat),
                 transports: [
                     new winston.transports.File({
                         filename: join(this.logsPath, "error.log"),
@@ -75,10 +48,7 @@ export class Logger {
                 ],
             }),
             fatal: winston.createLogger({
-                format: winston.format.combine(
-                    winston.format.timestamp(),
-                    logFormat
-                ),
+                format: winston.format.combine(winston.format.timestamp(), logFormat),
                 transports: [
                     new winston.transports.File({
                         filename: join(this.logsPath, "fatal.log"),
@@ -88,13 +58,7 @@ export class Logger {
             }),
         };
     }
-
-    /**
-     * Logs a message to both the console and the logger.
-     * @param message The message to log.
-     * @param type The type of the message.
-     */
-    log(message: string, type: LogType = "info") {
+    log(message, type = "info") {
         this.loggers[type].log({
             level: type,
             message: message

@@ -1,17 +1,13 @@
-import mongoose, { Document } from "mongoose";
-import { DBTicket } from "../types/Database.js";
-
-export enum TicketType {
-    Private = -1,
-    General = 0,
-    MemberReport = 1,
-    ModReport = 2,
-    HeadModReport = 3
-}
-
-export interface IDBTicket extends DBTicket, Document { }
-
-export const TicketConfigSchema = new mongoose.Schema<IDBTicket>({
+import mongoose from "mongoose";
+export var TicketType;
+(function (TicketType) {
+    TicketType[TicketType["Private"] = -1] = "Private";
+    TicketType[TicketType["General"] = 0] = "General";
+    TicketType[TicketType["MemberReport"] = 1] = "MemberReport";
+    TicketType[TicketType["ModReport"] = 2] = "ModReport";
+    TicketType[TicketType["HeadModReport"] = 3] = "HeadModReport";
+})(TicketType || (TicketType = {}));
+export const TicketConfigSchema = new mongoose.Schema({
     ticketId: {
         type: mongoose.SchemaTypes.String,
         unique: true,
@@ -24,19 +20,19 @@ export const TicketConfigSchema = new mongoose.Schema<IDBTicket>({
     },
     creator: {
         type: mongoose.SchemaTypes.String,
-        required: true, // -1 if it's automatic / made by bot
+        required: true,
     },
     mod: {
         type: mongoose.SchemaTypes.String,
-        default: "-1", // -1 means the ticket is not claimed
+        default: "-1",
     },
     modlevel: {
         type: mongoose.SchemaTypes.Number,
-        default: 0, // determines what mods should be able to see this ticket
+        default: 0,
     },
     waitingfor: {
         type: mongoose.SchemaTypes.Number,
-        default: 1, // which mod the ticket is currently waiting for
+        default: 1,
     },
     type: {
         type: mongoose.SchemaTypes.Number,
@@ -45,7 +41,7 @@ export const TicketConfigSchema = new mongoose.Schema<IDBTicket>({
     users: {
         type: mongoose.SchemaTypes.Map,
         of: mongoose.SchemaTypes.String,
-        default: new Map<string, string>(),
+        default: new Map(),
     },
     closed: {
         type: mongoose.SchemaTypes.Boolean,

@@ -1,5 +1,9 @@
-import mongoose, { SchemaTypes } from "mongoose";
-export const GiveawayConfigSchema = new mongoose.Schema({
+import mongoose, { Document, SchemaTypes } from "mongoose";
+import { DBGiveaway } from "../types/Database.js";
+
+export interface IDBGiveaway extends DBGiveaway, Document {}
+
+export const GiveawayConfigSchema = new mongoose.Schema<IDBGiveaway>({
     giveawayId: {
         type: SchemaTypes.String,
         unique: true,

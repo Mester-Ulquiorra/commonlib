@@ -1,5 +1,9 @@
-import mongoose from "mongoose";
-export const TictactoeConfigSchema = new mongoose.Schema({
+import mongoose, { Document } from "mongoose";
+import { DBTictactoe } from "../types/Database.js";
+
+export interface IDBTictactoe extends DBTictactoe, Document {}
+
+export const TictactoeConfigSchema = new mongoose.Schema<IDBTictactoe>({
     user: {
         type: mongoose.SchemaTypes.String,
         required: true,

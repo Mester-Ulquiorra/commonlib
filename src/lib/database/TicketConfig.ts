@@ -1,13 +1,17 @@
-import mongoose from "mongoose";
-export var TicketType;
-(function (TicketType) {
-    TicketType[TicketType["Private"] = -1] = "Private";
-    TicketType[TicketType["General"] = 0] = "General";
-    TicketType[TicketType["MemberReport"] = 1] = "MemberReport";
-    TicketType[TicketType["ModReport"] = 2] = "ModReport";
-    TicketType[TicketType["HeadModReport"] = 3] = "HeadModReport";
-})(TicketType || (TicketType = {}));
-export const TicketConfigSchema = new mongoose.Schema({
+import mongoose, { Document } from "mongoose";
+import { DBTicket } from "../types/Database.js";
+
+export enum TicketType {
+    Private = -1,
+    General = 0,
+    MemberReport = 1,
+    ModReport = 2,
+    HeadModReport = 3,
+}
+
+export interface IDBTicket extends DBTicket, Document {}
+
+export const TicketConfigSchema = new mongoose.Schema<IDBTicket>({
     ticketId: {
         type: mongoose.SchemaTypes.String,
         unique: true,
@@ -41,7 +45,7 @@ export const TicketConfigSchema = new mongoose.Schema({
     users: {
         type: mongoose.SchemaTypes.Map,
         of: mongoose.SchemaTypes.String,
-        default: new Map(),
+        default: new Map<string, string>(),
     },
     closed: {
         type: mongoose.SchemaTypes.Boolean,

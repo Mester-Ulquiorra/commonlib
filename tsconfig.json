@@ -1,28 +1,26 @@
 {
     "compilerOptions": {
-        "baseUrl": ".",
-        "skipLibCheck": true,
-        "module": "ES2022",
-        "moduleResolution": "nodenext",
-        "target": "ES2022",
-        "lib": [
-            "ES2022"
-        ],
+        // add Bun type definitions
         "types": [
-            // add node as an option
-            "node",
+            "bun-types"
         ],
-        "typeRoots": [
-            // add path to @types
-            "node_modules/@types"
+        // enable latest features
+        "lib": [
+            "esnext"
         ],
-        "experimentalDecorators": true,
-        "emitDecoratorMetadata": true,
-        "outDir": "./build",
-        "removeComments": true,
-        "allowSyntheticDefaultImports": true,
+        "module": "esnext",
+        "target": "esnext",
+        // if TS 5.x+
+        "moduleResolution": "nodenext",
+        //"allowImportingTsExtensions": true,
+        "moduleDetection": "force",
+        //"noEmit": true,
+        "outDir": "./build/",
+        "esModuleInterop": true, // allow default imports for CommonJS modules
         "newLine": "lf",
-        "esModuleInterop": true
+        // best practices
+        "forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true
     },
     "include": [
         "./src/",

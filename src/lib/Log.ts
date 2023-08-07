@@ -2,8 +2,12 @@ import winston from "winston";
 import { format as formatDate } from "date-fns";
 import clc from "cli-color";
 import { join } from "path";
+
+export type LogType = "info" | "warn" | "error" | "fatal";
+
 const dateFormat = "yyyy-MM-dd HH:mm:ss.SSS";
-function getColoredType(type) {
+
+function getColoredType(type: LogType) {
     switch (type) {
         case "info":
             return clc.blue("INFO");
@@ -15,9 +19,11 @@ function getColoredType(type) {
             return clc.xterm(196).bgXterm(160).bold("FATAL");
     }
 }
-const logFormat = winston.format.printf(({ level, message, timestamp }) => {
+
+const logFormat = winston.format.printf(({ level, message, timestamp }: { level: string; message: string; timestamp: Date }) => {
     return `[${timestamp.toLocaleString()} ${level.toUpperCase()}]: ${message}`;
 });
+
 /**
  * A universal logger class.
  */
@@ -25,13 +31,16 @@ export class Logger {
     /**
      * The path to the logs folder.
      */
-    logsPath;
+    logsPath: string;
+
     /**
      * The logger objects for each log level.
      */
-    loggers;
-    constructor(logsPath) {
+    loggers: Record<LogType, winston.Logger>;
+
+    constructor(logsPath: string) {
         this.logsPath = logsPath;
+
         this.loggers = {
             info: winston.createLogger({
                 format: winston.format.combine(winston.format.timestamp(), logFormat),
@@ -71,12 +80,13 @@ export class Logger {
             }),
         };
     }
+
     /**
      * Logs a message to both the console and the logger.
      * @param message The message to log.
      * @param type The type of the message.
      */
-    log(message, type = "info") {
+    log(message: string, type: LogType = "info") {
         this.loggers[type].log({
             level: type === "fatal" ? "error" : type,
             message: message,

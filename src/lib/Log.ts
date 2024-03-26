@@ -20,9 +20,13 @@ function getColoredType(type: LogType) {
     }
 }
 
-const logFormat = winston.format.printf(({ level, message, timestamp }: { level: string; message: string; timestamp: Date }) => {
-    return `[${timestamp.toLocaleString()} ${level.toUpperCase()}]: ${message}`;
-});
+const logFormat = winston.format.combine(
+    winston.format.timestamp(),
+    //@ts-expect-error this works, shut up
+    winston.format.printf(({ level, message, timestamp }: { level: string; message: string; timestamp: Date }) => {
+        return `[${timestamp.toLocaleString()} ${level.toUpperCase()}]: ${message}`;
+    })
+);
 
 /**
  * A universal logger class.
@@ -43,41 +47,41 @@ export class Logger {
 
         this.loggers = {
             info: winston.createLogger({
-                format: winston.format.combine(winston.format.timestamp(), logFormat),
+                format: logFormat,
                 transports: [
                     new winston.transports.File({
                         filename: join(this.logsPath, "info.log"),
-                        level: "info",
-                    }),
-                ],
+                        level: "info"
+                    })
+                ]
             }),
             warn: winston.createLogger({
-                format: winston.format.combine(winston.format.timestamp(), logFormat),
+                format: logFormat,
                 transports: [
                     new winston.transports.File({
                         filename: join(this.logsPath, "warn.log"),
-                        level: "warn",
-                    }),
-                ],
+                        level: "warn"
+                    })
+                ]
             }),
             error: winston.createLogger({
-                format: winston.format.combine(winston.format.timestamp(), logFormat),
+                format: logFormat,
                 transports: [
                     new winston.transports.File({
                         filename: join(this.logsPath, "error.log"),
-                        level: "error",
-                    }),
-                ],
+                        level: "error"
+                    })
+                ]
             }),
             fatal: winston.createLogger({
-                format: winston.format.combine(winston.format.timestamp(), logFormat),
+                format: logFormat,
                 transports: [
                     new winston.transports.File({
                         filename: join(this.logsPath, "fatal.log"),
-                        level: "error",
-                    }),
-                ],
-            }),
+                        level: "error"
+                    })
+                ]
+            })
         };
     }
 
@@ -89,7 +93,7 @@ export class Logger {
     log(message: string, type: LogType = "info") {
         this.loggers[type].log({
             level: type === "fatal" ? "error" : type,
-            message: message,
+            message: message
         });
         console.log(`[${formatDate(new Date(), dateFormat)} ${getColoredType(type)}]: ${message}`);
     }

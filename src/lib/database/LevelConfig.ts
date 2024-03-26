@@ -1,5 +1,15 @@
 import mongoose, { Document } from "mongoose";
-import { DBLevel } from "../types/Database.js";
+
+export interface DBLevel {
+    /**
+     * The user's id
+     */
+    userId: string;
+    /**
+     * The user's xp
+     */
+    xp: number;
+}
 
 export interface IDBLevel extends DBLevel, Document {}
 
@@ -7,10 +17,10 @@ export const LevelConfigSchema = new mongoose.Schema<IDBLevel>({
     userId: {
         type: mongoose.SchemaTypes.String,
         unique: true,
-        required: true,
+        required: true
     },
     xp: {
         type: mongoose.SchemaTypes.Number,
-        default: 0,
-    },
+        default: 0
+    }
 });

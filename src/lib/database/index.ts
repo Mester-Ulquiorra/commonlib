@@ -4,3 +4,4 @@ export * from "./PunishmentConfig.js";
 export * from "./TicketConfig.js";
 export * from "./TictactoeConfig.js";
 export * from "./UserConfig.js";
+export * from "./InviteConfig.js";

@@ -11,7 +11,7 @@
         "module": "esnext",
         "target": "esnext",
         // if TS 5.x+
-        "moduleResolution": "nodenext",
+        "moduleResolution": "bundler",
         //"allowImportingTsExtensions": true,
         "moduleDetection": "force",
         //"noEmit": true,
@@ -20,7 +20,8 @@
         "newLine": "lf",
         // best practices
         "forceConsistentCasingInFileNames": true,
-        "skipLibCheck": true
+        "skipLibCheck": true,
+        "strict": true
     },
     "include": [
         "./src/",
